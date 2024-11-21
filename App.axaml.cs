@@ -26,16 +26,18 @@ namespace ToDolistVersion2
             //Create a service provider containing services from the provided collection
             var services = collection.BuildServiceProvider();
 
-            var vm = services.GetRequiredService<ViewModelHome>();
+            var vm = services.GetRequiredService<MainViewModel>();
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 // Line below is needed to remove Avalonia data validation.
                 // Without this line you will get duplicate validations from both Avalonia and CT
                 BindingPlugins.DataValidators.RemoveAt(0);
-                desktop.MainWindow = new MainWindow
+               var mainWindow = new MainWindow
                 {
                     DataContext = vm
                 };
+                mainWindow.AttachDevTools();
+                desktop.MainWindow = mainWindow; 
             }
 
             base.OnFrameworkInitializationCompleted();

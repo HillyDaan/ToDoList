@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:vm="using:ToDolistVersion2.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ToDolistVersion2.Views.ViewHome"
+		x:DataType="vm:ViewModelHome"
+       >
+	<StackPanel>
+		<TextBlock Text="Home page view" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+		<ItemsControl ItemsSource="{Binding Tasks}">
+			<ItemsControl.ItemTemplate>
+				<!--  The ItemTemplate defines how each item should be represented  -->
+				<!--  Our Item will be represented by a CheckBox and a Delete-Button  -->
+				<DataTemplate DataType="vm:ViewModelTask">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="150" />
+							<ColumnDefinition Width="100" />
+						</Grid.ColumnDefinitions>
+
+						<TextBlock Grid.Column="0" >
+							<Run Text="Title: " />
+							<Run Text="{Binding Title}" />
+						</TextBlock>
+
+						<TextBlock Text="{Binding Points}" Grid.Column="1" />
+					</Grid>
+
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</StackPanel>
+	
+</UserControl>

@@ -5,39 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ToDolistVersion2.Views.MainWindow"
-        x:DataType="vm:ViewModelHome"
+        x:DataType="vm:MainViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="ToDolistVersion2">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<!-- This row takes up the remaining space -->
+			<RowDefinition Height="Auto"/>
+			<!-- This row adjusts to fit the buttons -->
+		</Grid.RowDefinitions>
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:ViewModelHome/>
-    </Design.DataContext>
-	<StackPanel>
-		<TextBlock Text="Home page view" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-		<ItemsControl ItemsSource="{Binding Tasks}">
-			<ItemsControl.ItemTemplate>
-				<!--  The ItemTemplate defines how each item should be represented  -->
-				<!--  Our Item will be represented by a CheckBox and a Delete-Button  -->
-				<DataTemplate DataType="vm:ViewModelTask">
-					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="150" />
-							<ColumnDefinition Width="100" />
-						</Grid.ColumnDefinitions>
+		<!-- The main content will take up the remaining space -->
+		<ContentControl Content="{Binding CurrentView}" Grid.Row="0" />
 
-						<TextBlock Grid.Column="0" >
-							<Run Text="Title: " />
-							<Run Text="{Binding Title}" />
-						</TextBlock>
-						
-						<TextBlock Text="{Binding Points}" Grid.Column="1" />
-					</Grid>
-
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-	</StackPanel>
+		<!-- Buttons are placed in the bottom row -->
+		<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10" Margin="10">
+			<Button Command="{Binding NavigateToAddTaskPageCommand}" Content="Add Task" Width="150" Margin="5"/>
+			<Button Command="{Binding NavigateToHomePageCommand}" Content="Home Page" Width="150" Margin="5"/>
+			<Button Command="{Binding NavigateToAllTaskPageCommand}" Content="All Tasks" Width="150" Margin="5"/>
+		</StackPanel>
+	</Grid>
+	
 
 </Window>

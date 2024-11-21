@@ -14,6 +14,7 @@ namespace ToDolistVersion2.Services
         {
             services.AddSingleton<TaskService>();
             services.AddTransient<ViewModelHome>();
+            services.AddTransient<MainViewModel>();
         }
     }
 }

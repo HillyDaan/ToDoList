@@ -24,8 +24,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\AddTaskWindow.axaml.cs">
-      <DependentUpon>AddTaskWindow.axaml</DependentUpon>
+    <Compile Update="Views\ViewAddTask.axaml.cs">
+      <DependentUpon>ViewAddTask.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ViewAllTask.axaml.cs">
+      <DependentUpon>ViewAllTask.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ViewHome.axaml.cs">
+      <DependentUpon>ViewHome.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>
