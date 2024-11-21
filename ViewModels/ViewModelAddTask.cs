@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToDolistVersion2.Services;
+using ToDolistVersion2.Interfaces;
 
 namespace ToDolistVersion2.ViewModels
 {
     public partial class ViewModelAddTask : ViewModelBase
     {
-        private readonly TaskService _taskService;
+        private readonly ITaskService _taskService;
 
         [ObservableProperty]
         private string? _newTitle;
@@ -28,7 +29,7 @@ namespace ToDolistVersion2.ViewModels
 
 
         public ObservableCollection<ViewModelTask> Tasks { get; set; }
-        public ViewModelAddTask(TaskService taskService)
+        public ViewModelAddTask(ITaskService taskService)
         {
             _taskService = taskService;
             Tasks = new ObservableCollection<ViewModelTask>(

@@ -2,24 +2,22 @@
 using System.Linq;
 using ToDolistVersion2.Models;
 using ToDolistVersion2.Services;
+using ToDolistVersion2.Interfaces;
 
 namespace ToDolistVersion2.ViewModels
 {
     public partial class ViewModelHome : ViewModelBase
     {
-        private readonly TaskService _taskService;
+        private readonly ITaskService _taskService;
         public ObservableCollection<ViewModelTask> Tasks { get; }
 
-        public ViewModelHome(TaskService taskService) {
+        public ViewModelHome(ITaskService taskService) {
             _taskService = taskService;
-            //Convert tasks to taskmodel
+            //Convert tasks to ViewTaskmodel
             Tasks = new ObservableCollection<ViewModelTask>(
                _taskService.Tasks.Select(task => new ViewModelTask(task))
             );
         }
-
-        
-        public ViewModelHome() { }
 
     }
 }

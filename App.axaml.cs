@@ -21,6 +21,7 @@ namespace ToDolistVersion2
         {
             //Register all services needed
             var collection = new ServiceCollection();
+            //Services registered found in Services/ServiceCollectionExtensions
             collection.AddCommonServices();
 
             //Create a service provider containing services from the provided collection

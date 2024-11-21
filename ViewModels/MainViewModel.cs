@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToDolistVersion2.Services;
+using ToDolistVersion2.Interfaces;
 
 namespace ToDolistVersion2.ViewModels
 {
@@ -20,9 +21,9 @@ namespace ToDolistVersion2.ViewModels
         /// <summary>
         /// Reference to taskService that contains all tasks
         /// </summary>
-        private readonly TaskService _taskService;
+        private readonly ITaskService _taskService;
 
-        public MainViewModel(TaskService taskService)
+        public MainViewModel(ITaskService taskService)
         {
             //Initialize taskservice
             this._taskService = taskService;

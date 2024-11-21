@@ -4,11 +4,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToDolistVersion2.Interfaces;
 using ToDolistVersion2.Models;
 
 namespace ToDolistVersion2.Services
 {
-    public class TaskService
+    public class TaskService : ITaskService
     {
         public ObservableCollection<TaskModel> Tasks { get; private set; }
 
