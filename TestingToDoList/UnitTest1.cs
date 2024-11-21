@@ -3,19 +3,21 @@ using ToDolistVersion2.Interfaces;
 using ToDolistVersion2.ViewModels;
 using ToDolistVersion2.Models;
 using Moq;
+using System.Collections.ObjectModel;
 
 namespace TestingToDoList
 {
     public class UnitTest1
     {
-       
         [Fact]
         public void AddItem_CallsAddTaskMethodInService_UsingReflection()
         {
             // Arrange
             var mockTaskService = new Mock<ITaskService>();
+            mockTaskService.Setup(service => service.Tasks)
+                           .Returns(new ObservableCollection<TaskModel>());
+
             var viewModel = new ViewModelAddTask(mockTaskService.Object);
-            var test = "";
 
             // Setup ViewModel's properties
             viewModel.NewTitle = "New Task";
