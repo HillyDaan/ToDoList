@@ -16,13 +16,16 @@ namespace ToDolistVersion2.ViewModels
         [ObservableProperty]
         private string? _title;
 
+        [ObservableProperty]
+        private int? _points;
+
         public ViewModelTask() { }
 
         public ViewModelTask(TaskModel task)
         {
             IsChecked = task.IsChecked;
             Title = task.Title;
-            Console.WriteLine(Title);
+            Points = task.Points;
         }
 
         public TaskModel GetTask()
@@ -31,6 +34,7 @@ namespace ToDolistVersion2.ViewModels
             {
                 Title = this.Title,
                 IsChecked = this.IsChecked,
+                Points = this.Points
             };
         }
     }
