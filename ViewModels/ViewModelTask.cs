@@ -19,6 +19,15 @@ namespace ToDolistVersion2.ViewModels
         [ObservableProperty]
         private int? _points;
 
+        [ObservableProperty]
+        private string? _description;
+
+        [ObservableProperty]
+        private DateTime? _createdDate;
+
+        [ObservableProperty]
+        private DateTime? _deadlineDate;
+
         public ViewModelTask() { }
 
         public ViewModelTask(TaskModel task)
@@ -26,6 +35,9 @@ namespace ToDolistVersion2.ViewModels
             IsChecked = task.IsChecked;
             Title = task.Title;
             Points = task.Points;
+            Description = task.Description;
+            CreatedDate = task.Created;
+            DeadlineDate = task.Deadline;
         }
 
         public TaskModel GetTask()
@@ -34,7 +46,11 @@ namespace ToDolistVersion2.ViewModels
             {
                 Title = this.Title,
                 IsChecked = this.IsChecked,
-                Points = this.Points
+                Points = this.Points,
+                Description = this.Description,
+                Created = this.CreatedDate,
+                Deadline = this.DeadlineDate
+
             };
         }
     }

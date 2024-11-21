@@ -17,6 +17,15 @@ namespace ToDolistVersion2.ViewModels
         [ObservableProperty]
         private string? _newTitle;
 
+        [ObservableProperty]
+        private string? _newDescription;
+
+        [ObservableProperty]
+        private int? _newPoints;
+
+        [ObservableProperty]
+        private DateTimeOffset? _deadline;
+
 
         public ObservableCollection<ViewModelTask> Tasks { get; set; }
         public ViewModelAddTask(TaskService taskService)
@@ -32,10 +41,16 @@ namespace ToDolistVersion2.ViewModels
         [RelayCommand]
         private void AddItem()
         {
-            var newTask = new ViewModelTask() { Title = _newTitle, IsChecked = false, Points = 5 };
+            var newTask = new ViewModelTask() {
+                Title = NewTitle,
+                IsChecked = false,
+                Points = NewPoints,
+                Description = NewDescription,
+                CreatedDate = DateTime.Now,
+                DeadlineDate = Deadline?.Date
+            };
             _taskService.AddTask(newTask.GetTask());
             Tasks.Add(newTask);
-
         }
     }
 }

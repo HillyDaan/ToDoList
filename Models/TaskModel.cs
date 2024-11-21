@@ -39,5 +39,7 @@ namespace ToDolistVersion2.Models
         /// </summary>
         public bool IsChecked { get; set; }
 
+        public string? Description { get; set; }
+
     }
 }

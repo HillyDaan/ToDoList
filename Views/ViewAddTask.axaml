@@ -7,40 +7,49 @@
         x:Class="ToDolistVersion2.Views.ViewAddTask"
 		x:DataType="vm:ViewModelAddTask"
         >
+	<StackPanel Spacing="15" HorizontalAlignment="Center" VerticalAlignment="Center">
+		<!-- Title Input -->
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			<TextBlock Grid.Row="0" Text="Title" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+			<TextBox Grid.Row="1" Text="{Binding NewTitle}" Width="300" Watermark="Enter task title" Margin="0,5"/>
+		</Grid>
 
-      <StackPanel>
-		  <TextBox Grid.Row="2"
-		  Text="{Binding NewTitle}"
-		  Watermark="Add a new Item">
-			  <TextBox.InnerRightContent>
-				  <Button Command="{Binding AddItemCommand}" >
-					  Add
-					  <!-- <PathIcon Data="{DynamicResource AcceptIconData}" Foreground="Green" /> -->
-				  </Button>
-			  </TextBox.InnerRightContent>
-			
-		  </TextBox>
-		  <ItemsControl ItemsSource="{Binding Tasks}">
-			  <ItemsControl.ItemTemplate>
-				  <!--  The ItemTemplate defines how each item should be represented  -->
-				  <!--  Our Item will be represented by a CheckBox and a Delete-Button  -->
-				  <DataTemplate DataType="vm:ViewModelTask">
-					  <Grid>
-						  <Grid.ColumnDefinitions>
-							  <ColumnDefinition Width="150" />
-							  <ColumnDefinition Width="100" />
-						  </Grid.ColumnDefinitions>
+		<!-- Description Input -->
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			<TextBlock Grid.Row="0" Text="Description" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+			<TextBox Grid.Row="1" Text="{Binding NewDescription}" Width="300" Height="80" Watermark="Enter task description" AcceptsReturn="True" Margin="0,5"/>
+		</Grid>
 
-						  <TextBlock Grid.Column="0" >
-							  <Run Text="Title: " />
-							  <Run Text="{Binding Title}" />
-						  </TextBlock>
+		<!-- Points Input -->
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			<TextBlock Grid.Row="0" Text="Points" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+			<NumericUpDown Grid.Row="1" Value="{Binding NewPoints}" Width="300" Minimum="0" Maximum="100" Increment="1" Margin="0,5" Watermark="1"/>
+		</Grid>
 
-						  <TextBlock Text="{Binding Points}" Grid.Column="1" />
-					  </Grid>
+		<!-- Deadline Date Input -->
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			<TextBlock Grid.Row="0" Text="Deadline" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+			<DatePicker Grid.Row="1" SelectedDate="{Binding Deadline}" Width="300" Margin="0,5"/>
+		</Grid>
 
-				  </DataTemplate>
-			  </ItemsControl.ItemTemplate>
-		  </ItemsControl>
-      </StackPanel>
+		<!-- Submit Button -->
+		<Button Content="Add Task" Command="{Binding AddItemCommand}" Width="300" HorizontalAlignment="Center" Padding="10,5" Margin="0,20"/>
+	</StackPanel>	  
+  
 </UserControl>
