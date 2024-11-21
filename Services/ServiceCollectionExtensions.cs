@@ -13,8 +13,10 @@ namespace ToDolistVersion2.Services
         public static void AddCommonServices(this IServiceCollection services)
         {
             services.AddSingleton<TaskService>();
-            services.AddTransient<ViewModelHome>();
             services.AddTransient<MainViewModel>();
+            services.AddTransient<ViewModelHome>();
+            services.AddTransient<ViewModelAddTask>();
+            services.AddTransient<ViewModelAllTask>();
         }
     }
 }

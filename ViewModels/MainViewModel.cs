@@ -35,7 +35,7 @@ namespace ToDolistVersion2.ViewModels
         public void NavigateToAddTaskPage()
         {
             //Pass taskService
-            CurrentView = new ViewModelAddTask();
+            CurrentView = new ViewModelAddTask(_taskService);
         }
         [RelayCommand]
         public void NavigateToHomePage()
@@ -46,7 +46,7 @@ namespace ToDolistVersion2.ViewModels
         [RelayCommand]
         public void NavigateToAllTaskPage()
         {
-            CurrentView = new ViewModelAllTask();
+            CurrentView = new ViewModelAllTask(_taskService);
         }
 
 
