@@ -15,7 +15,7 @@
         <vm:ViewModelHome/>
     </Design.DataContext>
 	<StackPanel>
-		<TextBlock Text="test 123 github is zaad" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+		<TextBlock Text="Home page view" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 		<ItemsControl ItemsSource="{Binding Tasks}">
 			<ItemsControl.ItemTemplate>
 				<!--  The ItemTemplate defines how each item should be represented  -->
