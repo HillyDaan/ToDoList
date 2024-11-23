@@ -17,8 +17,28 @@ namespace ToDolistVersion2.Services
         {
             Tasks = new ObservableCollection<TaskModel>()
             {
-                new TaskModel {Id = "1", Title = "task 1", Points = 5, Created = new DateTime(10), Deadline = new DateTime(15), IsChecked = false},
-                new TaskModel {Id = "2", Title = "task 2", Points = 5, Created = new DateTime(10), Deadline = new DateTime(15), IsChecked = false}
+                new TaskModel {Id = "1", 
+                    Title = "task 1", 
+                    Points = 5, 
+                    Created = new DateTime(10), 
+                    Deadline = new DateTime(15), 
+                    IsChecked = false,
+                    SubTasks = new ObservableCollection<ViewModels.ViewModelSubTask> { 
+                        new ViewModels.ViewModelSubTask(){Title = "subTask 1", IsChecked=false},
+                        new ViewModels.ViewModelSubTask(){Title = "subTask 2", IsChecked=false},
+                    } 
+                },
+                new TaskModel {Id = "2", 
+                    Title = "task 2", 
+                    Points = 5, 
+                    Created = new DateTime(10), 
+                    Deadline = new DateTime(15), 
+                    IsChecked = false,
+                    SubTasks = new ObservableCollection<ViewModels.ViewModelSubTask> {
+                        new ViewModels.ViewModelSubTask(){Title = "subTask 3", IsChecked=false},
+                        new ViewModels.ViewModelSubTask(){Title = "subTask 4", IsChecked=false},
+                    } 
+                }
             };
         }
 

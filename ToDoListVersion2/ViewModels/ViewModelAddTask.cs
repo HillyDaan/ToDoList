@@ -16,6 +16,9 @@ namespace ToDolistVersion2.ViewModels
         private readonly ITaskService _taskService;
 
         [ObservableProperty]
+        private ObservableCollection<ViewModelSubTask> _subTaskList = new();
+
+        [ObservableProperty]
         private string? _newTitle;
 
         [ObservableProperty]
@@ -27,6 +30,9 @@ namespace ToDolistVersion2.ViewModels
         [ObservableProperty]
         private DateTimeOffset? _deadline;
 
+        [ObservableProperty]
+        private string? _newSubTaskTitle;
+
 
         public ObservableCollection<ViewModelTask> Tasks { get; set; }
         public ViewModelAddTask(ITaskService taskService)
@@ -35,6 +41,22 @@ namespace ToDolistVersion2.ViewModels
             Tasks = new ObservableCollection<ViewModelTask>(
                 _taskService.Tasks.Select(task => new ViewModelTask(task))
             );
+        }
+
+        //Add check if subtasks title isnt empty 
+        [RelayCommand]
+        public void AddSubTask()
+        {
+            SubTaskList.Add(new ViewModelSubTask() { Title = NewSubTaskTitle, IsChecked = false});
+        }
+
+        [RelayCommand]
+        public void RemoveSubTask(ViewModelSubTask subTask)
+        {
+            if (subTask != null)
+            {
+                SubTaskList.Remove(subTask);
+            }
         }
 
         //Add check if item is valid later
@@ -48,10 +70,13 @@ namespace ToDolistVersion2.ViewModels
                 Points = NewPoints,
                 Description = NewDescription,
                 CreatedDate = DateTime.Now,
-                DeadlineDate = Deadline?.Date
+                DeadlineDate = Deadline?.Date,
+                SubTasks = SubTaskList
             };
             _taskService.AddTask(newTask.GetTask());
             Tasks.Add(newTask);
         }
+
+       
     }
 }

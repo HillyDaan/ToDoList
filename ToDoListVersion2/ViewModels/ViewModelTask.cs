@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,11 @@ namespace ToDolistVersion2.ViewModels
         [ObservableProperty]
         private DateTime? _deadlineDate;
 
+        [ObservableProperty]
+        private ObservableCollection<ViewModelSubTask> _subTasks = new();
+
+
+
         public ViewModelTask() { }
 
         public ViewModelTask(TaskModel task)
@@ -38,6 +44,19 @@ namespace ToDolistVersion2.ViewModels
             Description = task.Description;
             CreatedDate = task.Created;
             DeadlineDate = task.Deadline;
+
+            // Initialize SubTasks from TaskModel
+            if (task.SubTasks != null)
+            {
+                foreach (var subTask in task.SubTasks)
+                {
+                    SubTasks.Add(new ViewModelSubTask
+                    {
+                        Title = subTask.Title,
+                        IsChecked = subTask.IsChecked,
+                    });
+                }
+            }
         }
 
         public TaskModel GetTask()
@@ -49,8 +68,14 @@ namespace ToDolistVersion2.ViewModels
                 Points = this.Points,
                 Description = this.Description,
                 Created = this.CreatedDate,
-                Deadline = this.DeadlineDate
-
+                Deadline = this.DeadlineDate,
+                SubTasks = new ObservableCollection<ViewModelSubTask>(
+                    SubTasks.Select(st => new ViewModelSubTask()
+                    {
+                        Title = st.Title,
+                        IsChecked = false, // Subtasks might have additional fields to sync
+                    })
+                )
             };
         }
     }

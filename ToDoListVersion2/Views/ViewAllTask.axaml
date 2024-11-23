@@ -7,47 +7,74 @@
         x:Class="ToDolistVersion2.Views.ViewAllTask"
         x:DataType="vm:ViewModelAllTask"
         >
-    <StackPanel>
+    <Grid>
         <TextBlock Text="All tasks view" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-		<ItemsControl ItemsSource="{Binding Tasks}">
-			<ItemsControl.ItemTemplate>
-				<!--  The ItemTemplate defines how each item should be represented  -->
-				<!--  Our Item will be represented by a CheckBox and a Delete-Button  -->
-				<DataTemplate DataType="vm:ViewModelTask">
-                    <Border BorderBrush="#CCCCCC" BorderThickness="1" Margin="10" Padding="15" Background="#F9F9F9" CornerRadius="8">
-                        <StackPanel>
-                            <!-- Title and Checkbox -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
-                                <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" Margin="10,0"/>
-                            </StackPanel>
+		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+			<ItemsControl ItemsSource="{Binding Tasks}">
+				<ItemsControl.ItemTemplate>
+					<!-- The ItemTemplate defines how each item should be represented -->
+					<!-- Our Item will be represented by a CheckBox and a Delete-Button -->
+					<DataTemplate DataType="vm:ViewModelTask">
+						<Border BorderBrush="#CCCCCC" BorderThickness="1" Margin="10" Padding="15" Background="#F9F9F9" CornerRadius="8">
+							<StackPanel>
+								<!-- Title and Checkbox -->
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+									<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+									<TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" Margin="10,0"/>
+								</StackPanel>
 
-                            <!-- Points -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                                <TextBlock Text="Points:" FontSize="14" Foreground="#555555" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding Points}" FontSize="14" Foreground="#333333" VerticalAlignment="Center" Margin="10,0"/>
-                            </StackPanel>
+								<!-- Points -->
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+									<TextBlock Text="Points:" FontSize="14" Foreground="#555555" VerticalAlignment="Center" />
+									<TextBlock Text="{Binding Points}" FontSize="14" Foreground="#333333" VerticalAlignment="Center" Margin="10,0"/>
+								</StackPanel>
 
-                            <!-- Description -->
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
-                                <TextBlock Text="Description:" FontSize="14" Foreground="#555555" VerticalAlignment="Top" Margin="0,10,0,5"/>
-                                <TextBlock Text="{Binding Description}" FontSize="14" Foreground="#333333" VerticalAlignment="Top" TextWrapping="Wrap" />
-                            </StackPanel>
+								<!-- Description -->
+								<StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+									<TextBlock Text="Description:" FontSize="14" Foreground="#555555" VerticalAlignment="Top" Margin="0,10,0,5"/>
+									<TextBlock Text="{Binding Description}" FontSize="14" Foreground="#333333" VerticalAlignment="Top" TextWrapping="Wrap" />
+								</StackPanel>
 
-                            <!-- Created Date and Deadline -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,10,0,0">
-                                <TextBlock Text="Created:" FontSize="14" Foreground="#555555" VerticalAlignment="Center"/>
-                                <TextBlock Text="{Binding CreatedDate, StringFormat='yyyy-MM-dd'}" FontSize="14" Foreground="#333333" VerticalAlignment="Center" Margin="10,0"/>
+								<!-- SubTasks -->
+								<StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Margin="0,10,0,0">
+									<TextBlock Text="Subtasks:" FontSize="14" FontWeight="Bold" Foreground="#555555" Margin="0,5"/>
+									<ItemsControl ItemsSource="{Binding SubTasks}">
+										<ItemsControl.ItemTemplate>
+											<DataTemplate>
+												<Grid Margin="0,5">
+													<Grid.ColumnDefinitions>
+														<ColumnDefinition Width="*" />
+														<ColumnDefinition Width="Auto" />
+													</Grid.ColumnDefinitions>
 
-                                <TextBlock Text="Deadline:" FontSize="14" Foreground="#555555" VerticalAlignment="Center" Margin="20,0,0,0"/>
-                                <TextBlock Text="{Binding DeadlineDate, StringFormat='yyyy-MM-dd'}" FontSize="14" Foreground="#333333" VerticalAlignment="Center" Margin="10,0"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-    </StackPanel>
+													<!-- Subtask Title -->
+													<TextBlock Text="{Binding Title}" FontSize="14" Foreground="#333333" VerticalAlignment="Center"/>
+
+													<!-- Checkbox -->
+													<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" Grid.Column="1" Margin="10,0,0,0"/>
+												</Grid>
+											</DataTemplate>
+										</ItemsControl.ItemTemplate>
+									</ItemsControl>
+								</StackPanel>
+								
+								<!-- Created Date and Deadline -->
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,10,0,0">
+									<TextBlock Text="Created:" FontSize="14" Foreground="#555555" VerticalAlignment="Center"/>
+									<TextBlock Text="{Binding CreatedDate, StringFormat='yyyy-MM-dd'}" FontSize="14" Foreground="#333333" VerticalAlignment="Center" Margin="10,0"/>
+
+									<TextBlock Text="Deadline:" FontSize="14" Foreground="#555555" VerticalAlignment="Center" Margin="20,0,0,0"/>
+									<TextBlock Text="{Binding DeadlineDate, StringFormat='yyyy-MM-dd'}" FontSize="14" Foreground="#333333" VerticalAlignment="Center" Margin="10,0"/>
+								</StackPanel>
+							</StackPanel>
+						</Border>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+
+
+	</Grid>
     
   
 </UserControl>

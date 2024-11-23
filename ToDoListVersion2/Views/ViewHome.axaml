@@ -8,29 +8,40 @@
 		x:DataType="vm:ViewModelHome"
        >
 	<StackPanel>
-		<TextBlock Text="Home page view" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+		<TextBlock Text="Home page view" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+		<!-- Main ItemsControl for tasks -->
 		<ItemsControl ItemsSource="{Binding Tasks}">
 			<ItemsControl.ItemTemplate>
-				<!--  The ItemTemplate defines how each item should be represented  -->
-				<!--  Our Item will be represented by a CheckBox and a Delete-Button  -->
+				<!-- Template for each Task -->
 				<DataTemplate DataType="vm:ViewModelTask">
-					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="150" />
-							<ColumnDefinition Width="100" />
-						</Grid.ColumnDefinitions>
-
-						<TextBlock Grid.Column="0" >
+					<StackPanel Margin="10">
+						<!-- Task details -->
+						<TextBlock>
 							<Run Text="Title: " />
 							<Run Text="{Binding Title}" />
 						</TextBlock>
+						<TextBlock>
+							<Run Text="Points: " />
+							<Run Text="{Binding Points}" />
+						</TextBlock>
 
-						<TextBlock Text="{Binding Points}" Grid.Column="1" />
-					</Grid>
-
+						<!-- Nested ItemsControl for subtasks -->
+						<ItemsControl ItemsSource="{Binding SubTasks}">
+							<ItemsControl.ItemTemplate>
+								<!-- Template for each Subtask -->
+								<DataTemplate DataType="vm:ViewModelSubTask">
+									<StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+										<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+										<TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
+									</StackPanel>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</StackPanel>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
 	</StackPanel>
-	
+
 </UserControl>

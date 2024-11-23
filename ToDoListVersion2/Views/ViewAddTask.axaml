@@ -37,12 +37,45 @@
 			<TextBlock Grid.Row="0" Text="Points" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
 			<NumericUpDown Grid.Row="1" Value="{Binding NewPoints}" Width="300" Minimum="0" Maximum="100" Increment="1" Margin="0,5" Watermark="1"/>
 		</Grid>
+		<!-- SubTask input-->
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<TextBlock Grid.Row="0" Text="Subtasks" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" />
+
+			<TextBox Grid.Row="1" Text="{Binding NewSubTaskTitle}" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" />
+
+			<Button Grid.Row="2" Content="Add SubTask" Command="{Binding AddSubTask}" Width="300" HorizontalAlignment="Center" Padding="10,5" Margin="0,20" />
+
+			<ItemsControl Grid.Row="3" ItemsSource="{Binding SubTaskList}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Grid Margin="5">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+
+							<TextBlock Text="{Binding Title}" VerticalAlignment="Center" />
+
+							
+						</Grid>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</Grid>
 
 		<!-- Deadline Date Input -->
 		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
+				
 			</Grid.RowDefinitions>
 			<TextBlock Grid.Row="0" Text="Deadline" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
 			<DatePicker Grid.Row="1" SelectedDate="{Binding Deadline}" Width="300" Margin="0,5"/>

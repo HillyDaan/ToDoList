@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToDolistVersion2.ViewModels;
 
 namespace ToDolistVersion2.Models
 {
@@ -41,5 +43,6 @@ namespace ToDolistVersion2.Models
 
         public string? Description { get; set; }
 
+        public ObservableCollection<ViewModelSubTask>? SubTasks { get; set; }
     }
 }
