@@ -82,7 +82,7 @@
 		</Grid>
 
 		<!-- Submit Button -->
-		<Button Content="Add Task" Command="{Binding AddItemCommand}" Width="300" HorizontalAlignment="Center" Padding="10,5" Margin="0,20"/>
+		<Button Content="{Binding ButtonText}" Command="{Binding AddItemCommand}" Width="300" HorizontalAlignment="Center" Padding="10,5" Margin="0,20"/>
 	</StackPanel>	  
   
 </UserControl>

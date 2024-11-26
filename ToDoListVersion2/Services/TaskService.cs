@@ -20,8 +20,9 @@ namespace ToDolistVersion2.Services
                 new TaskModel {Id = "1", 
                     Title = "task 1", 
                     Points = 5, 
-                    Created = new DateTime(10), 
-                    Deadline = new DateTime(15), 
+                    Description = "Dit is de eerste description",
+                    Created = new DateTime(2023, 10, 1), 
+                    Deadline = new DateTime(2023, 10, 15), 
                     IsChecked = false,
                     SubTasks = new ObservableCollection<ViewModels.ViewModelSubTask> { 
                         new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 1", IsChecked=false, Id="1", ParentId = "1"}),
@@ -30,9 +31,10 @@ namespace ToDolistVersion2.Services
                 },
                 new TaskModel {Id = "2", 
                     Title = "task 2", 
-                    Points = 5, 
-                    Created = new DateTime(10), 
-                    Deadline = new DateTime(15), 
+                    Points = 5,
+                    Description = "Dit is de tweede description",
+                    Created = new DateTime(2024, 11, 5), 
+                    Deadline = new DateTime(2024, 11, 11), 
                     IsChecked = false,
                     SubTasks = new ObservableCollection<ViewModels.ViewModelSubTask> {
                         new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 3", IsChecked=false, Id="3", ParentId = "2"}),
@@ -49,6 +51,19 @@ namespace ToDolistVersion2.Services
         public void AddTask(TaskModel task)
         {
             Tasks.Add(task);
+        }
+
+        public void UpdateTask(TaskModel task)
+        {
+            var taskToUpdate = Tasks.FirstOrDefault(t => t.Id == task.Id);
+            if ( taskToUpdate != null)
+            {
+                taskToUpdate.Title = task.Title;
+                taskToUpdate.Description = task.Description;
+                taskToUpdate.Points = task.Points;
+                taskToUpdate.Deadline = task.Deadline;
+                taskToUpdate.SubTasks = task.SubTasks;
+            }
         }
 
         public void CheckOffTask(TaskModel task, bool isChecked)

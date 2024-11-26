@@ -25,6 +25,9 @@
 											  CommandParameter="{Binding}"
 											  />
 									<TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" Margin="10,0"/>
+									<Button Content="Edit"
+											Command="{Binding #Root.((vm:ViewModelAllTask)DataContext).NavigateToAddTaskPageCommand}"
+											CommandParameter="{Binding}" />
 								</StackPanel>
 
 								<!-- Points -->

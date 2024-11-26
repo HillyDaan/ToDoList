@@ -17,6 +17,9 @@ namespace ToDolistVersion2.ViewModels
 
         private string Id = Guid.NewGuid().ToString();
 
+        [ObservableProperty]
+        private string _buttonText = "Add Task";
+
 
         [ObservableProperty]
         private ObservableCollection<ViewModelSubTask> _subTaskList = new();
@@ -46,6 +49,26 @@ namespace ToDolistVersion2.ViewModels
             );
         }
 
+        public ViewModelAddTask(ITaskService taskService, ViewModelTask task)
+        {
+            _taskService = taskService;
+            Tasks = new ObservableCollection<ViewModelTask>(
+                _taskService.Tasks.Select(task => new ViewModelTask(task))
+            );
+
+            NewTitle = task.Title;
+            NewDescription = task.Description;
+            NewPoints = task.Points;
+            Deadline = task.DeadlineDate;
+            Id = task.Id;
+            //Init subtasks list
+            foreach(ViewModelSubTask st in task.SubTasks)
+            {
+                SubTaskList.Add(st);
+            }
+            ButtonText = "Update task";
+        }
+
         //Add check if subtasks title isnt empty 
         [RelayCommand]
         public void AddSubTask()
@@ -69,18 +92,40 @@ namespace ToDolistVersion2.ViewModels
         [RelayCommand]
         private void AddItem()
         {
-            var newTask = new ViewModelTask() {
-                Title = NewTitle,
-                IsChecked = false,
-                Points = NewPoints,
-                Description = NewDescription,
-                CreatedDate = DateTime.Now,
-                DeadlineDate = Deadline?.Date,
-                SubTasks = SubTaskList,
-                Id = Id,
-            };
-            _taskService.AddTask(newTask.GetTask());
-            Tasks.Add(newTask);
+            var existingTask = Tasks.FirstOrDefault(t => t.Id == Id);
+            if (existingTask != null)
+            {
+                //Updating old takse
+                existingTask.Title = NewTitle;
+                existingTask.Description = NewDescription;
+                existingTask.Points = NewPoints;
+                existingTask.DeadlineDate = Deadline?.Date;
+                existingTask.SubTasks.Clear();
+
+                foreach (var subTask in SubTaskList)
+                {
+                    existingTask.SubTasks.Add(subTask);
+                }
+
+                _taskService.UpdateTask(existingTask.GetTask());
+            } else
+            {
+                var newTask = new ViewModelTask()
+                {
+                    Title = NewTitle,
+                    IsChecked = false,
+                    Points = NewPoints,
+                    Description = NewDescription,
+                    CreatedDate = DateTime.Now,
+                    DeadlineDate = Deadline?.Date,
+                    SubTasks = SubTaskList,
+                    Id = Id,
+                };
+                _taskService.AddTask(newTask.GetTask());
+                Tasks.Add(newTask);
+            }
+           
+           
             //add confirmation
             // reset input fields
         }
