@@ -35,7 +35,7 @@ namespace TestingToDoList
         }
         //Test for checking if an item is actually added to the collection
         [Fact]
-        public void AddTask_AddsTaskToCollection()
+        public void AddTask_AddsTaskWithSubtasksToCollection()
         {
             // Arrange
             var tasksCollection = new ObservableCollection<TaskModel>();
@@ -55,17 +55,53 @@ namespace TestingToDoList
                 Points = 10,
                 Created = DateTime.Now,
                 Deadline = DateTime.Now.AddDays(1),
-                IsChecked = false
+                IsChecked = false,
+                SubTasks = new ObservableCollection<ViewModelSubTask> // Add subtasks to the new task
+                    {
+                        new ViewModelSubTask { Title = "Subtask 1", IsChecked = false },
+                        new ViewModelSubTask { Title = "Subtask 2", IsChecked = false }
+                    }
             };
 
             // Act
             taskService.Object.AddTask(newTask);
 
             // Assert
-            Assert.Equal(initialCount + 1, tasksCollection.Count); // Check count
-            Assert.Contains(newTask, tasksCollection); // Check the task is in the collection
+            Assert.Equal(initialCount + 1, tasksCollection.Count); // Check task count
+            Assert.Contains(newTask, tasksCollection); // Check if the task was added to the collection
+
+            // Check if the task has subtasks
+            Assert.Equal(2, newTask.SubTasks.Count); // Verify that the task has 2 subtasks
+            Assert.Contains(newTask.SubTasks, subTask => subTask.Title == "Subtask 1"); // Check if Subtask 1 is in the list
+            Assert.Contains(newTask.SubTasks, subTask => subTask.Title == "Subtask 2"); // Check if Subtask 2 is in the list
         }
 
+        //Test for checking if subtasks are added
+        [Fact]
+        public void AddSubTask_AddsSubTaskToList()
+        {
 
+            {
+                // Arrange
+                var mockTaskService = new Mock<ITaskService>();
+                mockTaskService.Setup(service => service.Tasks)
+                               .Returns(new ObservableCollection<TaskModel>());
+
+                var viewModel = new ViewModelAddTask(mockTaskService.Object);
+
+                // Initial state: SubTaskList is empty
+                var initialCount = viewModel.SubTaskList.Count;
+                Console.WriteLine(initialCount);
+
+                var newSubTaskTitle = "New SubTask";
+                viewModel.NewSubTaskTitle = newSubTaskTitle; // Set the title for the new subtask
+
+                // Act
+                viewModel.AddSubTask(); // This should add the new subtask to the SubTaskList
+                // Assert
+                Assert.Equal(initialCount + 1, viewModel.SubTaskList.Count); // Check that the count increased
+                Assert.Contains(viewModel.SubTaskList, subTask => subTask.Title == newSubTaskTitle); // Check if the new subtask is added to the list
+            }
+        }
     }
 }
