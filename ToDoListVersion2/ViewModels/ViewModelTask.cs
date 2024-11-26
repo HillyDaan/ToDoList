@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +12,9 @@ namespace ToDolistVersion2.ViewModels
 {
     public partial class ViewModelTask : ViewModelBase
     {
+        [ObservableProperty]
+        private string? _id;
+
         [ObservableProperty]
         private bool _isChecked;
 
@@ -44,6 +48,7 @@ namespace ToDolistVersion2.ViewModels
             Description = task.Description;
             CreatedDate = task.Created;
             DeadlineDate = task.Deadline;
+            Id = task.Id;
 
             // Initialize SubTasks from TaskModel
             if (task.SubTasks != null)
@@ -54,6 +59,8 @@ namespace ToDolistVersion2.ViewModels
                     {
                         Title = subTask.Title,
                         IsChecked = subTask.IsChecked,
+                        Id = subTask.Id,
+                        ParentId = subTask.ParentId,
                     });
                 }
             }
@@ -69,11 +76,14 @@ namespace ToDolistVersion2.ViewModels
                 Description = this.Description,
                 Created = this.CreatedDate,
                 Deadline = this.DeadlineDate,
+                Id = this.Id,
                 SubTasks = new ObservableCollection<ViewModelSubTask>(
                     SubTasks.Select(st => new ViewModelSubTask()
                     {
                         Title = st.Title,
                         IsChecked = false, // Subtasks might have additional fields to sync
+                        Id = st.Id,
+                        ParentId = st.ParentId,
                     })
                 )
             };

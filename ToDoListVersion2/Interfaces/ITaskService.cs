@@ -12,5 +12,9 @@ namespace ToDolistVersion2.Interfaces
     {
         ObservableCollection<TaskModel> Tasks { get; }
         public void AddTask(TaskModel task);
+
+        public void CheckOffTask(TaskModel task, bool isChecked);
+
+        public void CheckOffSubTask(SubTaskModel subTask, bool isChecked);
     }
 }

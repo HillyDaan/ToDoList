@@ -11,7 +11,9 @@ namespace ToDolistVersion2.Models
         public string? Id { get; set; }
         public string? Title { get; set; }
 
-        public Boolean isChecked { get; set; }
+        public string? ParentId { get; set; }
+
+        public Boolean IsChecked { get; set; }
 
     }
 }

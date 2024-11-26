@@ -24,8 +24,8 @@ namespace ToDolistVersion2.Services
                     Deadline = new DateTime(15), 
                     IsChecked = false,
                     SubTasks = new ObservableCollection<ViewModels.ViewModelSubTask> { 
-                        new ViewModels.ViewModelSubTask(){Title = "subTask 1", IsChecked=false},
-                        new ViewModels.ViewModelSubTask(){Title = "subTask 2", IsChecked=false},
+                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 1", IsChecked=false, Id="1", ParentId = "1"}),
+                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 2", IsChecked=false, Id = "2", ParentId = "1"}),
                     } 
                 },
                 new TaskModel {Id = "2", 
@@ -35,8 +35,8 @@ namespace ToDolistVersion2.Services
                     Deadline = new DateTime(15), 
                     IsChecked = false,
                     SubTasks = new ObservableCollection<ViewModels.ViewModelSubTask> {
-                        new ViewModels.ViewModelSubTask(){Title = "subTask 3", IsChecked=false},
-                        new ViewModels.ViewModelSubTask(){Title = "subTask 4", IsChecked=false},
+                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 3", IsChecked=false, Id="3", ParentId = "2"}),
+                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 4", IsChecked=false, Id="4", ParentId = "2"}),
                     } 
                 }
             };
@@ -51,6 +51,35 @@ namespace ToDolistVersion2.Services
             Tasks.Add(task);
         }
 
-        
+        public void CheckOffTask(TaskModel task, bool isChecked)
+        {
+            var taskToUpdate = Tasks.FirstOrDefault(t => t.Id == task.Id);
+            if (taskToUpdate != null)
+            {
+                taskToUpdate.IsChecked = isChecked;
+                // Optionally, update subtasks if necessary
+                foreach (var subTask in taskToUpdate.SubTasks)
+                {
+                    subTask.IsChecked = isChecked;  // This will sync subtask states too, if needed
+                }
+            }
+        }
+        public void CheckOffSubTask(SubTaskModel subTask, bool isChecked)
+        {
+            // Find the parent task by matching the task id
+            var taskToUpdate = Tasks.FirstOrDefault(t => t.Id == subTask.ParentId); // Assuming each subtask has a reference to its parent task
+
+            if (taskToUpdate != null)
+            {
+                // Find the subtask to update
+                var subTaskToUpdate = taskToUpdate.SubTasks.FirstOrDefault(st => st.Id == subTask.Id);
+
+                if (subTaskToUpdate != null)
+                {
+                    subTaskToUpdate.IsChecked = isChecked;
+                }
+            }
+        }
+
     }
 }

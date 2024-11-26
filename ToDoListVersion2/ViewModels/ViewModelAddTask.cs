@@ -15,6 +15,9 @@ namespace ToDolistVersion2.ViewModels
     {
         private readonly ITaskService _taskService;
 
+        private string Id = Guid.NewGuid().ToString();
+
+
         [ObservableProperty]
         private ObservableCollection<ViewModelSubTask> _subTaskList = new();
 
@@ -47,7 +50,9 @@ namespace ToDolistVersion2.ViewModels
         [RelayCommand]
         public void AddSubTask()
         {
-            SubTaskList.Add(new ViewModelSubTask() { Title = NewSubTaskTitle, IsChecked = false});
+            int count = SubTaskList.Count();
+            string finalCount = $"{count}";
+            SubTaskList.Add(new ViewModelSubTask() { Title = NewSubTaskTitle, IsChecked = false, ParentId = Id, Id = finalCount });
         }
 
         [RelayCommand]
@@ -71,10 +76,13 @@ namespace ToDolistVersion2.ViewModels
                 Description = NewDescription,
                 CreatedDate = DateTime.Now,
                 DeadlineDate = Deadline?.Date,
-                SubTasks = SubTaskList
+                SubTasks = SubTaskList,
+                Id = Id,
             };
             _taskService.AddTask(newTask.GetTask());
             Tasks.Add(newTask);
+            //add confirmation
+            // reset input fields
         }
 
        
