@@ -10,6 +10,8 @@ using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
 using CommunityToolkit.Mvvm.Input;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
 
 namespace ToDolistVersion2.ViewModels
 {
@@ -71,6 +73,7 @@ namespace ToDolistVersion2.ViewModels
 
             var deadlineTasks = Tasks
                 .Where(tasks => tasks.DeadlineDate.HasValue)
+                .Where(tasks => tasks.IsActive())
                 .Select(task =>
                 {
                     int daysToDeadline = (int)(task.DeadlineDate.Value - currentDate).TotalDays;
@@ -149,14 +152,17 @@ namespace ToDolistVersion2.ViewModels
             // Categories - Calculate the points for each category
             int pointsLessThan3Days = Tasks
                 .Where(task => task.DeadlineDate.HasValue && (task.DeadlineDate.Value - DateTime.Now).TotalDays < 3)
+                .Where(tasks => tasks.IsActive())
                 .Sum(task => task.SubTasks.Sum(subTask => subTask.Points ?? 0));
 
             int pointsBetween3and7Days = Tasks
                 .Where(task => task.DeadlineDate.HasValue && (task.DeadlineDate.Value - DateTime.Now).TotalDays >= 3 && (task.DeadlineDate.Value - DateTime.Now).TotalDays <= 7)
+                .Where(tasks => tasks.IsActive())
                 .Sum(task => task.SubTasks.Sum(subTask => subTask.Points ?? 0));
 
             int pointsGreaterThan7Days = Tasks
                 .Where(task => task.DeadlineDate.HasValue && (task.DeadlineDate.Value - DateTime.Now).TotalDays > 7)
+                .Where(tasks => tasks.IsActive())
                 .Sum(task => task.SubTasks.Sum(subTask => subTask.Points ?? 0));
 
             PieData = new ISeries[]
@@ -165,19 +171,19 @@ namespace ToDolistVersion2.ViewModels
                 {
                     Values = new [] {pointsLessThan3Days},
                     Name = "Less then 3 days",
-                    Stroke = null
+                    Fill = new SolidColorPaint(SKColors.Red)
                 },
                 new PieSeries<int>
                 {
                     Values = new [] {pointsBetween3and7Days},
                     Name = "Between 3 and 7 days",
-                    Stroke = null
+                    Fill = new SolidColorPaint(SKColors.Blue)
                 },
                 new PieSeries<int>
                 {
                     Values = new [] {pointsGreaterThan7Days},
                     Name = "Greater then 7 days",
-                    Stroke = null
+                    Fill = new SolidColorPaint(SKColors.Green)
                 }
             };
         }
