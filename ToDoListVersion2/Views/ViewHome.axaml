@@ -57,7 +57,7 @@
 
 			<!-- Bottom Section (Suggested Task Order with Subtasks) -->
 			<TextBlock Text="Suggested Task Order" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
-			<ItemsControl ItemsSource="{Binding TopTasks}">
+			<ItemsControl ItemsSource="{Binding TopTasks}" x:Name="TaskRoot">
 				<ItemsControl.ItemTemplate>
 					<!-- Template for each Task -->
 					<DataTemplate DataType="vm:ViewModelTask">
@@ -77,7 +77,7 @@
 								<ItemsControl.ItemTemplate>
 									<DataTemplate DataType="vm:ViewModelSubTask">
 										<StackPanel Orientation="Horizontal" Margin="5,5,0,0">
-											<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+											<CheckBox IsChecked="{Binding IsChecked}" Command="{Binding #TaskRoot.((vm:ViewModelHome)DataContext).UpdateSubTaskStatusCommand}" CommandParameter="{Binding}" VerticalAlignment="Center"/>
 											<TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" FontSize="14"/>
 											<TextBlock Text="{Binding Points}" FontSize="14" VerticalAlignment="Center"/>
 										</StackPanel>

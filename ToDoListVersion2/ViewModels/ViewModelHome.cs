@@ -9,6 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
+using CommunityToolkit.Mvvm.Input;
 
 namespace ToDolistVersion2.ViewModels
 {
@@ -41,6 +42,25 @@ namespace ToDolistVersion2.ViewModels
             CreatePieChart();
             //Nearest Deadlines
             GetNearestDeadlines(5);
+
+        }
+
+        [RelayCommand]
+        public void UpdateSubTaskStatus(ViewModelSubTask subTask)
+        {
+            _taskService.CheckOffSubTask(subTask.GetSubTask(), subTask.IsChecked);
+        }
+
+        [RelayCommand]
+        public void UpdateTaskStatus(ViewModelTask task)
+        {
+            //Set viewModel change for each subtask
+            foreach (ViewModelSubTask subTask in task.SubTasks)
+            {
+                subTask.IsChecked = task.IsChecked;
+            }
+            //Viewmodel already changed, inform taskService of change
+            _taskService.CheckOffTask(task.GetTask(), task.IsChecked);
 
         }
 
