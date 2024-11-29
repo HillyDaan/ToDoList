@@ -61,6 +61,7 @@ namespace ToDolistVersion2.ViewModels
                         IsChecked = subTask.IsChecked,
                         Id = subTask.Id,
                         ParentId = subTask.ParentId,
+                        Points = subTask.Points
                     });
                 }
             }
@@ -84,6 +85,7 @@ namespace ToDolistVersion2.ViewModels
                         IsChecked = false, // Subtasks might have additional fields to sync
                         Id = st.Id,
                         ParentId = st.ParentId,
+                        Points = st.Points
                     })
                 )
             };

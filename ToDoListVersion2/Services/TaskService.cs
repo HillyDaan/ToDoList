@@ -21,12 +21,12 @@ namespace ToDolistVersion2.Services
                     Title = "task 1", 
                     Points = 5, 
                     Description = "Dit is de eerste description",
-                    Created = new DateTime(2023, 10, 1), 
-                    Deadline = new DateTime(2023, 10, 15), 
+                    Created = new DateTime(2024, 11, 20), 
+                    Deadline = new DateTime(2024, 12, 10), 
                     IsChecked = false,
                     SubTasks = new ObservableCollection<ViewModels.ViewModelSubTask> { 
-                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 1", IsChecked=false, Id="1", ParentId = "1"}),
-                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 2", IsChecked=false, Id = "2", ParentId = "1"}),
+                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 1", IsChecked=false, Id="1", ParentId = "1", Points = 3}),
+                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 2", IsChecked=false, Id = "2", ParentId = "1",Points = 2}),
                     } 
                 },
                 new TaskModel {Id = "2", 
@@ -34,12 +34,24 @@ namespace ToDolistVersion2.Services
                     Points = 5,
                     Description = "Dit is de tweede description",
                     Created = new DateTime(2024, 11, 5), 
-                    Deadline = new DateTime(2024, 11, 11), 
+                    Deadline = new DateTime(2024, 12, 15), 
                     IsChecked = false,
                     SubTasks = new ObservableCollection<ViewModels.ViewModelSubTask> {
-                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 3", IsChecked=false, Id="3", ParentId = "2"}),
-                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 4", IsChecked=false, Id="4", ParentId = "2"}),
+                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 3", IsChecked=false, Id="3", ParentId = "2", Points = 1}),
+                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 4", IsChecked=false, Id="4", ParentId = "2", Points = 10}),
                     } 
+                },
+                new TaskModel {Id = "3",
+                    Title = "task 3",
+                    Points = 10,
+                    Description = "High PRIORITY",
+                    Created = new DateTime(2024, 11, 29),
+                    Deadline = new DateTime(2024, 12, 1),
+                    IsChecked = false,
+                    SubTasks = new ObservableCollection<ViewModels.ViewModelSubTask> {
+                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 1: makkelijk maar moet gebeuren", IsChecked=false, Id="1", ParentId = "3", Points = 3}),
+                        
+                    }
                 }
             };
         }

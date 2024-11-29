@@ -11,7 +11,7 @@
 		<TextBlock Text="Home page view" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
 		<!-- Main ItemsControl for tasks -->
-		<ItemsControl ItemsSource="{Binding Tasks}">
+		<ItemsControl ItemsSource="{Binding TopTasks}">
 			<ItemsControl.ItemTemplate>
 				<!-- Template for each Task -->
 				<DataTemplate DataType="vm:ViewModelTask">

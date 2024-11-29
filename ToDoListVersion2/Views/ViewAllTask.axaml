@@ -50,19 +50,22 @@
 											<DataTemplate DataType="vm:ViewModelSubTask">
 												<Grid Margin="0,5">
 													<Grid.ColumnDefinitions>
-														<ColumnDefinition Width="*" />
+														<ColumnDefinition Width="1*" />
+														<ColumnDefinition Width="1*" />
 														<ColumnDefinition Width="Auto" />
 													</Grid.ColumnDefinitions>
 
 													<!-- Subtask Title -->
-													<TextBlock Text="{Binding Title}" FontSize="14" Foreground="#333333" VerticalAlignment="Center"/>
+													<TextBlock Grid.Column="0" Text="{Binding Title}" FontSize="14" Foreground="#333333" VerticalAlignment="Center"/>
 
+													<!-- SubTask Points -->
+													<TextBlock Grid.Column="1" Text="{Binding Points, StringFormat='Points: {0}'}" FontSize="12"/>
 													<!-- Checkbox -->
 													<CheckBox IsChecked="{Binding IsChecked}" 
 															  Command="{Binding #Root.((vm:ViewModelAllTask)DataContext).UpdateSubTaskStatusCommand}"
 															  CommandParameter="{Binding}"
 															  VerticalAlignment="Center" 
-															  Grid.Column="1" 
+															  Grid.Column="2" 
 															  Margin="10,0,0,0"/>
 												</Grid>
 											</DataTemplate>

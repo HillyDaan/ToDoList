@@ -13,6 +13,8 @@ namespace ToDolistVersion2.Models
 
         public string? ParentId { get; set; }
 
+        public int? Points { get; set; }
+
         public Boolean IsChecked { get; set; }
 
     }

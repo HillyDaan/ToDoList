@@ -22,6 +22,9 @@ namespace ToDolistVersion2.ViewModels
         [ObservableProperty]
         private Boolean _isChecked;
 
+        [ObservableProperty]
+        private int? _points;
+
         public ViewModelSubTask() { }
 
         public ViewModelSubTask(SubTaskModel subTask)
@@ -30,11 +33,12 @@ namespace ToDolistVersion2.ViewModels
             this.IsChecked = subTask.IsChecked;
             this.Id = subTask.Id;
             this.ParentId = subTask.ParentId;
+            this.Points = subTask.Points;
         }
 
         public SubTaskModel GetSubTask()
         {
-            return new SubTaskModel() { Id = Id, Title = Title, IsChecked = IsChecked, ParentId = ParentId };
+            return new SubTaskModel() { Id = Id, Title = Title, IsChecked = IsChecked, ParentId = ParentId, Points = Points };
         }
 
 

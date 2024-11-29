@@ -39,6 +39,9 @@ namespace ToDolistVersion2.ViewModels
         [ObservableProperty]
         private string? _newSubTaskTitle;
 
+        [ObservableProperty]
+        private int? _newSubTaskPoints;
+
 
         public ObservableCollection<ViewModelTask> Tasks { get; set; }
         public ViewModelAddTask(ITaskService taskService)
@@ -75,7 +78,8 @@ namespace ToDolistVersion2.ViewModels
         {
             int count = SubTaskList.Count();
             string finalCount = $"{count}";
-            SubTaskList.Add(new ViewModelSubTask() { Title = NewSubTaskTitle, IsChecked = false, ParentId = Id, Id = finalCount });
+
+            SubTaskList.Add(new ViewModelSubTask() { Title = NewSubTaskTitle, IsChecked = false, ParentId = Id, Id = finalCount, Points = NewSubTaskPoints });
         }
 
         [RelayCommand]

@@ -103,5 +103,21 @@ namespace TestingToDoList
                 Assert.Contains(viewModel.SubTaskList, subTask => subTask.Title == newSubTaskTitle); // Check if the new subtask is added to the list
             }
         }
+
+        //Test for checking checking a tasks off works as expected
+        [Fact]
+        public void checkOffTask_ChecksOfTask()
+        {
+            // Arrange
+            var mockTaskService = new Mock<ITaskService>();
+            mockTaskService.Setup(service => service.Tasks)
+                           .Returns(new ObservableCollection<TaskModel>());
+
+            var mainViewModel = new MainViewModel(mockTaskService.Object);
+            //Act
+
+
+
+        }
     }
 }
