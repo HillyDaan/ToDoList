@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using ToDolistVersion2.Interfaces;
 using ToDolistVersion2.Models;
+using Newtonsoft.Json;
+
 
 namespace ToDolistVersion2.Services
 {
@@ -13,49 +13,33 @@ namespace ToDolistVersion2.Services
     {
         public ObservableCollection<TaskModel> Tasks { get; private set; }
 
+        private readonly string _taskFilePath = "tasks.json";
+
         public TaskService()
         {
-            Tasks = new ObservableCollection<TaskModel>()
-            {
-                new TaskModel {Id = "1", 
-                    Title = "task 1", 
-                    Points = 5, 
-                    Description = "Dit is de eerste description",
-                    Created = new DateTime(2024, 11, 20), 
-                    Deadline = new DateTime(2024, 12, 10), 
-                    IsChecked = false,
-                    SubTasks = new ObservableCollection<ViewModels.ViewModelSubTask> { 
-                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 1", IsChecked=false, Id="1", ParentId = "1", Points = 3}),
-                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 2", IsChecked=false, Id = "2", ParentId = "1",Points = 2}),
-                    } 
-                },
-                new TaskModel {Id = "2", 
-                    Title = "task 2", 
-                    Points = 5,
-                    Description = "Dit is de tweede description",
-                    Created = new DateTime(2024, 11, 5), 
-                    Deadline = new DateTime(2024, 12, 15), 
-                    IsChecked = false,
-                    SubTasks = new ObservableCollection<ViewModels.ViewModelSubTask> {
-                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 3", IsChecked=false, Id="3", ParentId = "2", Points = 1}),
-                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 4", IsChecked=false, Id="4", ParentId = "2", Points = 10}),
-                    } 
-                },
-                new TaskModel {Id = "3",
-                    Title = "task 3",
-                    Points = 10,
-                    Description = "High PRIORITY",
-                    Created = new DateTime(2024, 11, 29),
-                    Deadline = new DateTime(2024, 12, 1),
-                    IsChecked = false,
-                    SubTasks = new ObservableCollection<ViewModels.ViewModelSubTask> {
-                        new ViewModels.ViewModelSubTask(new SubTaskModel{Title = "subTask 1: makkelijk maar moet gebeuren", IsChecked=false, Id="1", ParentId = "3", Points = 3}),
-                        
-                    }
-                }
-            };
+            Tasks = new ObservableCollection<TaskModel>();
+            LoadTasks();
         }
 
+        // Saves tasks to the file
+        public void SaveTasks()
+        {
+            var json = JsonConvert.SerializeObject(Tasks, Formatting.Indented);
+            File.WriteAllText(_taskFilePath, json);
+        }
+
+        public void LoadTasks()
+        {
+            if(File.Exists(_taskFilePath))
+            {
+                var json = File.ReadAllText(_taskFilePath);
+                var tasks = JsonConvert.DeserializeObject<ObservableCollection<TaskModel>>(json);
+                if (tasks != null)
+                {
+                    Tasks = tasks;
+                }
+            }
+        }
         /// <summary>
         /// Adds task to observable collection
         /// </summary>

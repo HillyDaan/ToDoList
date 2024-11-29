@@ -27,6 +27,7 @@ namespace ToDolistVersion2
             //Create a service provider containing services from the provided collection
             var services = collection.BuildServiceProvider();
 
+            //Get viewModel
             var vm = services.GetRequiredService<MainViewModel>();
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
@@ -38,7 +39,14 @@ namespace ToDolistVersion2
                     DataContext = vm
                 };
                 mainWindow.AttachDevTools();
-                desktop.MainWindow = mainWindow; 
+                desktop.MainWindow = mainWindow;
+
+                // Subscribe to the Exit event to trigger saving tasks when the app closes
+                desktop.Exit += (sender, e) =>
+                {
+                    // Trigger the save method from the ViewModel
+                    vm.SaveTasks();
+                };
             }
 
             base.OnFrameworkInitializationCompleted();

@@ -18,5 +18,9 @@ namespace ToDolistVersion2.Interfaces
         public void CheckOffSubTask(SubTaskModel subTask, bool isChecked);
 
         public void UpdateTask(TaskModel task);
+
+        public void SaveTasks();
+
+        public void LoadTasks();
     }
 }

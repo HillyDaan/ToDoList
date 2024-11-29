@@ -36,6 +36,9 @@ namespace ToDolistVersion2.ViewModels
         [ObservableProperty]
         private ObservableCollection<ViewModelSubTask> _subTasks = new();
 
+        [ObservableProperty]
+        private int _daysTillDeadLine;
+
 
 
         public ViewModelTask() { }
@@ -49,6 +52,7 @@ namespace ToDolistVersion2.ViewModels
             CreatedDate = task.Created;
             DeadlineDate = task.Deadline;
             Id = task.Id;
+            DaysTillDeadLine = (int) (DeadlineDate.Value - DateTime.Now).TotalDays;
 
             // Initialize SubTasks from TaskModel
             if (task.SubTasks != null)

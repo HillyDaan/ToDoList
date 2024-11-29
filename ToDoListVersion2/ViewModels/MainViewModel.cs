@@ -57,6 +57,12 @@ namespace ToDolistVersion2.ViewModels
             CurrentView = new ViewModelAllTask(_taskService, this);
         }
 
+        [RelayCommand]
+        public void SaveTasks()
+        {
+            _taskService.SaveTasks();
+        }
+
 
     }
 }

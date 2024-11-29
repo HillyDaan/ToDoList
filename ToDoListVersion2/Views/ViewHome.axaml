@@ -1,47 +1,94 @@
 <UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:vm="using:ToDolistVersion2.ViewModels"
+        xmlns:vm="using:ToDolistVersion2.ViewModels"
+        xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
         x:Class="ToDolistVersion2.Views.ViewHome"
-		x:DataType="vm:ViewModelHome"
-       >
-	<StackPanel>
-		<TextBlock Text="Home page view" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        x:DataType="vm:ViewModelHome">
 
-		<!-- Main ItemsControl for tasks -->
-		<ItemsControl ItemsSource="{Binding TopTasks}">
-			<ItemsControl.ItemTemplate>
-				<!-- Template for each Task -->
-				<DataTemplate DataType="vm:ViewModelTask">
-					<StackPanel Margin="10">
-						<!-- Task details -->
-						<TextBlock>
-							<Run Text="Title: " />
-							<Run Text="{Binding Title}" />
-						</TextBlock>
-						<TextBlock>
-							<Run Text="Points: " />
-							<Run Text="{Binding Points}" />
-						</TextBlock>
+	<!-- Main Container: Scrollable layout -->
+	<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+		<StackPanel  Spacing="10">
 
-						<!-- Nested ItemsControl for subtasks -->
-						<ItemsControl ItemsSource="{Binding SubTasks}">
-							<ItemsControl.ItemTemplate>
-								<!-- Template for each Subtask -->
-								<DataTemplate DataType="vm:ViewModelSubTask">
-									<StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-										<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-										<TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
-									</StackPanel>
-								</DataTemplate>
-							</ItemsControl.ItemTemplate>
-						</ItemsControl>
-					</StackPanel>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-	</StackPanel>
+			<!-- Top Section (Deadlines and Pie Chart) -->
+			<Grid>
+				<!-- Define two columns for top-left and top-right sections -->
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="2*" />
+					<ColumnDefinition Width="1*" />
+				</Grid.ColumnDefinitions>
 
+				<!-- Top-left (Nearest Deadlines) -->
+				<StackPanel Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left">
+					<TextBlock Text="Nearest Deadlines" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
+					<ItemsControl ItemsSource="{Binding Deadlines}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate DataType="vm:ViewModelTask">
+								<StackPanel Margin="5">
+									<TextBlock FontSize="14">
+										<Run Text="Title: " />
+										<Run Text="{Binding Title}" />
+									</TextBlock>
+									<TextBlock FontSize="14">
+										<Run Text="Days Left: " />
+										<Run Text="{Binding DaysTillDeadLine}" />
+									</TextBlock>
+									<TextBlock FontSize="14">
+										<Run Text="Deadline: " />
+										<Run Text="{Binding DeadlineDate}" />
+									</TextBlock>
+								</StackPanel>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
+
+				<!-- Top-right (Pie Chart) -->
+				<StackPanel Grid.Column="1">
+					<TextBlock FontSize="14">
+						Task distribution
+					</TextBlock>
+					<lvc:PieChart  Width="200" Height="200" Series="{Binding PieData}" />
+
+				</StackPanel>
+			</Grid>
+
+			<!-- Bottom Section (Suggested Task Order with Subtasks) -->
+			<TextBlock Text="Suggested Task Order" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
+			<ItemsControl ItemsSource="{Binding TopTasks}">
+				<ItemsControl.ItemTemplate>
+					<!-- Template for each Task -->
+					<DataTemplate DataType="vm:ViewModelTask">
+						<StackPanel Margin="10" Background="#f7f7f7"  >
+							<!-- Task details -->
+							<TextBlock FontSize="14" FontWeight="Bold">
+								<Run Text="Title: " />
+								<Run Text="{Binding Title}" />
+							</TextBlock>
+							<TextBlock FontSize="14">
+								<Run Text="Points: " />
+								<Run Text="{Binding Points}" />
+							</TextBlock>
+
+							<!-- Nested ItemsControl for subtasks -->
+							<ItemsControl ItemsSource="{Binding SubTasks}">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate DataType="vm:ViewModelSubTask">
+										<StackPanel Orientation="Horizontal" Margin="5,5,0,0">
+											<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+											<TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" FontSize="14"/>
+											<TextBlock Text="{Binding Points}" FontSize="14" VerticalAlignment="Center"/>
+										</StackPanel>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</StackPanel>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+
+		</StackPanel>
+	</ScrollViewer>
 </UserControl>
