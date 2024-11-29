@@ -71,6 +71,25 @@ namespace ToDolistVersion2.ViewModels
             }
         }
 
+        public bool IsActive()
+        {
+            //Chcek if all subtasks have been checked off
+            bool active = false;
+            foreach(var subTask in SubTasks)
+            {
+                if(subTask.IsChecked == false)
+                {
+                    active = true;
+                }
+            }
+            //Check if deadline has passed
+            if(DeadlineDate.HasValue && DeadlineDate.Value < DateTime.Now)
+            {
+                active = false;
+            }
+            return active;
+        }
+
         public TaskModel GetTask()
         {
             return new TaskModel()

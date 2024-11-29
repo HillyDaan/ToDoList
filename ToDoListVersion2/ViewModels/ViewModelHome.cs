@@ -100,6 +100,7 @@ namespace ToDolistVersion2.ViewModels
 
             var scoredTasks = Tasks
                 .Where(tasks => tasks.DeadlineDate.HasValue) //Only grab valid deadlines
+                .Where(tasks => tasks.IsActive())
                 .Select(task =>
                 {
                     //Get total subtasks points
