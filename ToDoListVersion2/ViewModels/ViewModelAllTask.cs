@@ -29,6 +29,13 @@ namespace ToDolistVersion2.ViewModels
 
         }
         [RelayCommand]
+        public void UpdateSubTaskStatus(ViewModelSubTask subTask)
+        {
+            _taskService.CheckOffSubTask(subTask.GetSubTask(), subTask.IsChecked);
+        }
+
+
+        [RelayCommand]
         public void NavigateToAddTaskPage(ViewModelTask task)
         {
             if(task != null)
@@ -36,10 +43,19 @@ namespace ToDolistVersion2.ViewModels
                 _mainViewModel.NavigateToAddTaskPage(task);
             }
         }
+
         [RelayCommand]
-        public void UpdateSubTaskStatus(ViewModelSubTask subTask)
+        public void DeleteTask(ViewModelTask task)
         {
-            _taskService.CheckOffSubTask(subTask.GetSubTask(), subTask.IsChecked);
+            if(task != null)
+            {
+                //Remove from local collection
+                Tasks.Remove(task);
+
+                //Remove from service
+                _taskService.DeleteTask(task.GetTask());
+
+            }
         }
        
         public ObservableCollection<ViewModelTask> Tasks { get; }

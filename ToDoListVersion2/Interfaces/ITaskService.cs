@@ -19,6 +19,8 @@ namespace ToDolistVersion2.Interfaces
 
         public void UpdateTask(TaskModel task);
 
+        public void DeleteTask(TaskModel task);
+
         public void SaveTasks();
 
         public void LoadTasks();

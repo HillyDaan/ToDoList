@@ -38,7 +38,7 @@
 			<NumericUpDown Grid.Row="1" Value="{Binding NewPoints}" Width="300" Minimum="0" Maximum="100" Increment="1" Margin="0,5" Watermark="1"/>
 		</Grid>
 		<!-- SubTask input-->
-		<Grid>
+		<Grid x:Name="SubtaskRoot">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
@@ -64,15 +64,16 @@
 			</Grid>
 
 			<!-- Add Subtask Button -->
-			<Button Grid.Row="2" Content="Add SubTask" Command="{Binding AddSubTaskCommand}" Width="300" HorizontalAlignment="Center" Padding="10,5" Margin="0,20"  />
+			<Button Grid.Row="2" Content="Add SubTask" Command="{Binding AddSubTaskCommand}" CommandParameter="{Binding}" Width="300" HorizontalAlignment="Center" Padding="10,5" Margin="0,20"  />
 
 			<!-- Subtask List -->
 			<ItemsControl Grid.Row="3" ItemsSource="{Binding SubTaskList}">
 				<ItemsControl.ItemTemplate>
-					<DataTemplate>
+					<DataTemplate DataType="vm:ViewModelSubTask">
 						<Grid Margin="5">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
@@ -81,6 +82,8 @@
 
 							<!-- Subtask Points -->
 							<TextBlock Grid.Column="1" Text="{Binding Points}" VerticalAlignment="Center" HorizontalAlignment="Right" />
+							<!-- Delete SubTask -->
+							<Button Grid.Column="2" Command="{Binding #SubtaskRoot.((vm:ViewModelAddTask)DataContext).RemoveSubTaskCommand}" CommandParameter="{Binding}"> X </Button>
 						</Grid>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>

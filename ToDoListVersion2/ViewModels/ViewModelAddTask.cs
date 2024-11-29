@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ToDolistVersion2.Services;
 using ToDolistVersion2.Interfaces;
+using ToDolistVersion2.Models;
 
 namespace ToDolistVersion2.ViewModels
 {
@@ -148,16 +149,17 @@ namespace ToDolistVersion2.ViewModels
                 _taskService.AddTask(newTask.GetTask());
                 Tasks.Add(newTask);
                 //Reset input fields
-                NewTitle = null;
-                NewDescription = null;
-                NewPoints = null;
-                Deadline = null;
-                SubTaskList.Clear();
+                ClearFields();
             }
+        }
 
-
-
-
+        private void ClearFields()
+        {
+            NewTitle = null;
+            NewDescription = null;
+            NewPoints = null;
+            Deadline = null;
+            SubTaskList.Clear();
         }
         private bool CanAddItem()
         {
@@ -172,9 +174,6 @@ namespace ToDolistVersion2.ViewModels
             canAddItem = canAddItem && Deadline.HasValue && Deadline.Value > DateTime.Now;
             return canAddItem;
         }
-
-
-
-
+  
     }
 }

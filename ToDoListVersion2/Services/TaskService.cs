@@ -49,6 +49,16 @@ namespace ToDolistVersion2.Services
             Tasks.Add(task);
         }
 
+        public void DeleteTask(TaskModel task)
+        {
+            var taskToRemove = Tasks.FirstOrDefault(x => x.Id == task.Id);
+            if(taskToRemove != null)
+            {
+                Tasks.Remove(taskToRemove);
+            }
+            
+        }
+
         public void UpdateTask(TaskModel task)
         {
             var taskToUpdate = Tasks.FirstOrDefault(t => t.Id == task.Id);
