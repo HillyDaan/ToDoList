@@ -25,21 +25,27 @@ namespace ToDolistVersion2.ViewModels
         private ObservableCollection<ViewModelSubTask> _subTaskList = new();
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddItemCommand))]
         private string? _newTitle;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddItemCommand))]
         private string? _newDescription;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddItemCommand))]
         private int? _newPoints;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddItemCommand))]
         private DateTimeOffset? _deadline;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddSubTaskCommand))]
         private string? _newSubTaskTitle;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddSubTaskCommand))]
         private int? _newSubTaskPoints;
 
 
@@ -50,6 +56,9 @@ namespace ToDolistVersion2.ViewModels
             Tasks = new ObservableCollection<ViewModelTask>(
                 _taskService.Tasks.Select(task => new ViewModelTask(task))
             );
+            Console.WriteLine($"AddSubTaskCommand.CanExecute: {AddSubTaskCommand.CanExecute(null)}");
+            AddSubTaskCommand.NotifyCanExecuteChanged();
+
         }
 
         public ViewModelAddTask(ITaskService taskService, ViewModelTask task)
@@ -70,16 +79,28 @@ namespace ToDolistVersion2.ViewModels
                 SubTaskList.Add(st);
             }
             ButtonText = "Update task";
+            AddSubTaskCommand.NotifyCanExecuteChanged();
+        }
+        private bool CanAddSubTask() 
+        {
+            bool canAddSubTask = true;
+            canAddSubTask = canAddSubTask && !string.IsNullOrWhiteSpace(NewSubTaskTitle);
+            canAddSubTask = canAddSubTask && NewSubTaskPoints > 0;
+
+            return canAddSubTask;
         }
 
         //Add check if subtasks title isnt empty 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanAddSubTask))]
         public void AddSubTask()
         {
             int count = SubTaskList.Count();
             string finalCount = $"{count}";
 
             SubTaskList.Add(new ViewModelSubTask() { Title = NewSubTaskTitle, IsChecked = false, ParentId = Id, Id = finalCount, Points = NewSubTaskPoints });
+            //Reset input fields
+            NewSubTaskTitle = null;
+            NewSubTaskPoints = null;
         }
 
         [RelayCommand]
@@ -92,8 +113,7 @@ namespace ToDolistVersion2.ViewModels
         }
 
         //Add check if item is valid later
-        //Using      [RelayCommand(CanExecute = nameof(CanAddItem))]
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanAddItem))]
         private void AddItem()
         {
             var existingTask = Tasks.FirstOrDefault(t => t.Id == Id);
@@ -127,13 +147,34 @@ namespace ToDolistVersion2.ViewModels
                 };
                 _taskService.AddTask(newTask.GetTask());
                 Tasks.Add(newTask);
+                //Reset input fields
+                NewTitle = null;
+                NewDescription = null;
+                NewPoints = null;
+                Deadline = null;
+                SubTaskList.Clear();
             }
-           
-           
-            //add confirmation
-            // reset input fields
+
+
+
+
+        }
+        private bool CanAddItem()
+        {
+            bool canAddItem = true;
+            //Check title
+            canAddItem = canAddItem && !string.IsNullOrWhiteSpace(NewTitle);
+            //Check description
+            canAddItem = canAddItem && !string.IsNullOrEmpty(NewDescription);
+            //Check severity, int between 1 - 10
+            canAddItem = canAddItem && NewPoints >= 1 && NewPoints <= 10;
+            //Check deadline date
+            canAddItem = canAddItem && Deadline.HasValue && Deadline.Value > DateTime.Now;
+            return canAddItem;
         }
 
-       
+
+
+
     }
 }

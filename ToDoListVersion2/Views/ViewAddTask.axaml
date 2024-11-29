@@ -64,7 +64,7 @@
 			</Grid>
 
 			<!-- Add Subtask Button -->
-			<Button Grid.Row="2" Content="Add SubTask" Command="{Binding AddSubTask}" Width="300" HorizontalAlignment="Center" Padding="10,5" Margin="0,20" />
+			<Button Grid.Row="2" Content="Add SubTask" Command="{Binding AddSubTaskCommand}" Width="300" HorizontalAlignment="Center" Padding="10,5" Margin="0,20"  />
 
 			<!-- Subtask List -->
 			<ItemsControl Grid.Row="3" ItemsSource="{Binding SubTaskList}">
