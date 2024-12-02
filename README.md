@@ -23,15 +23,13 @@ This is a solo project developed to learn and implement the **MVVM (Model-View-V
 - **Task Overview**: A specialized view to display the most important tasks and subtasks in order of priority.
 - **Priority Calculation**: A custom formula calculates task importance based on:
   - Deadline
-  - Points
+  - Severity
+  - SubTasks points 
 - **Local Storage**: Tasks and subtasks are saved locally.
 
 ### Should-Have Features (Planned 🚧)
-- Graphical Representation:
-  - A progress graph for tasks.
-- Archiving Preferences:
-  - Users can set preferences for archive dates.
-  - Tasks automatically archived after 5 days of completion.
+- Better error-handling for missing values when adding tasks
+- Re-ordering of sub-tasks
 
 ### Could-Have Features (Future Ideas 💡)
 - AI Assistance:
