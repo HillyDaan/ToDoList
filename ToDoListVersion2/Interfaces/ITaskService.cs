@@ -10,7 +10,7 @@ namespace ToDolistVersion2.Interfaces
 {
     public interface ITaskService
     {
-        ObservableCollection<TaskModel> Tasks { get; }
+        ObservableCollection<TaskModel> Tasks { get; set; }
         public void AddTask(TaskModel task);
 
         public void CheckOffTask(TaskModel task, bool isChecked);

@@ -11,7 +11,7 @@ namespace ToDolistVersion2.Services
 {
     public class TaskService : ITaskService
     {
-        public ObservableCollection<TaskModel> Tasks { get; private set; }
+        public ObservableCollection<TaskModel> Tasks { get; set; }
 
         private readonly string _taskFilePath = "tasks.json";
 
@@ -22,13 +22,13 @@ namespace ToDolistVersion2.Services
         }
 
         // Saves tasks to the file
-        public void SaveTasks()
+        public virtual void SaveTasks()
         {
             var json = JsonConvert.SerializeObject(Tasks, Formatting.Indented);
             File.WriteAllText(_taskFilePath, json);
         }
 
-        public void LoadTasks()
+        public virtual void LoadTasks()
         {
             if(File.Exists(_taskFilePath))
             {

@@ -13,7 +13,6 @@ namespace TestingToDoList
 {
     public class NavigationTests
     {
-
         //Test that homeView is intiallized on start up
         [Fact]
         public void Constructor_InitializesWithHomeView()
