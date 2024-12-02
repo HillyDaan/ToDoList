@@ -10,17 +10,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace TestingToDoList
 {
+
     public class ViewModelHomeTests
     {
-        [Fact]
-        public void CalculateTopTasks_CalculatesTopTasksCorrectly_SameWeek()
-        {
-            // Arrange
-            var mockTaskService = new Mock<ITaskService>();
 
-            // Set up mocked tasks
-            mockTaskService.Setup(service => service.Tasks).Returns(new ObservableCollection<TaskModel>
-        {
+        private ObservableCollection<TaskModel> _testCases = new ObservableCollection<TaskModel>() {
             new TaskModel
             {
                 Id = "1",
@@ -53,13 +47,18 @@ namespace TestingToDoList
                 Deadline = DateTime.Now.AddDays(4),
                 SubTasks = new ObservableCollection<ViewModelSubTask>
                 {
-                    new ViewModelSubTask { Title = "subTask 1", Points = 3 }
+                    new ViewModelSubTask { Title = "subTask 1", Points = 8 }
                 }
-            }
-        });
+            } };
+        [Fact]
+        public void CalculateTopTasks_CalculatesTopTasksCorrectly_SameWeek()
+        {
+            // Arrange
+            var mockTaskService = new TaskServiceMock();
+            mockTaskService.Tasks = new ObservableCollection<TaskModel>(_testCases);
 
             // Initialize ViewModelHome with the mocked task service
-            var viewModelHome = new ViewModelHome(mockTaskService.Object);
+            var viewModelHome = new ViewModelHome(mockTaskService);
 
             // Act
             viewModelHome.CalculateTopTasks(3); // Calculate top 3 tasks
@@ -80,102 +79,70 @@ namespace TestingToDoList
         public void CalculateTopTasks_ExcludesTasksWithoutDeadline()
         {
             // Arrange
-            var mockTaskService = new Mock<ITaskService>();
-
-            // Set up the mock to return a collection of tasks
-            mockTaskService.Setup(service => service.Tasks).Returns(new ObservableCollection<TaskModel>
-        {
-        new TaskModel
-        {
-            Id = "4",
-            Title = "task 4",
-            Points = 5,
-            Deadline = null, // No deadline
-            SubTasks = new ObservableCollection<ViewModelSubTask>()
-        },
-        new TaskModel
-        {
-            Id = "5",
-            Title = "task 5",
-            Points = 7,
-            Deadline = new DateTime(2024, 12, 2), // Valid deadline
-            SubTasks = new ObservableCollection<ViewModelSubTask>()
-        }
-        });
+            var mockTaskService = new TaskServiceMock();
+            _testCases[0].Deadline = DateTime.Now.AddDays(-1);
+            mockTaskService.Tasks = new ObservableCollection<TaskModel>(_testCases);
 
             // Initialize ViewModelHome with the mocked task service
-            var viewModelHome = new ViewModelHome(mockTaskService.Object);
+            var viewModelHome = new ViewModelHome(mockTaskService);
 
             // Act
-            viewModelHome.CalculateTopTasks(3); // Calculate top 3 tasks
+            viewModelHome.CalculateTopTasks(3); // Calculate top 3 (will be two) tasks
 
             // Assert
             var topTasks = viewModelHome.TopTasks;
 
-            // Assert that only tasks with a valid deadline are included
-            Assert.Single(topTasks); // Only task 5 should be in the list
-            Assert.Equal("task 5", topTasks[0].Title); // Task 5 should be the only task in TopTasks
+            // Assert that only two tasks with a valid deadline were added
+            Assert.Equal(2, viewModelHome.TopTasks.Count);
+            Assert.Equal("3", topTasks[0].Id); // Task with id 3 will be the highest
         }
 
         [Fact]
-        public void CalculateTopTasks_SortsByDeadlineAndSeverity()
+        public void GetNearestDeadline_SortByDays()
         {
             // Arrange
-            var mockTaskService = new Mock<ITaskService>();
+            var mockTaskService = new TaskServiceMock();
+            _testCases[0].Deadline = DateTime.Now.AddDays(3);
+            _testCases[1].Deadline = DateTime.Now.AddDays(2);
+            _testCases[2].Deadline = DateTime.Now.AddDays(1);
 
-            // Set up the mock to return a collection of tasks
-            mockTaskService.Setup(service => service.Tasks).Returns(new ObservableCollection<TaskModel>
-    {
-        new TaskModel
-        {
-            Id = "1",
-            Title = "task 1",
-            Points = 5,
-            Deadline = new DateTime(2024, 12, 10),
-            SubTasks = new ObservableCollection<ViewModelSubTask>
-            {
-                new ViewModelSubTask { Title = "subTask 1", Points = 3 },
-                new ViewModelSubTask { Title = "subTask 2", Points = 2 }
-            }
-        },
-        new TaskModel
-        {
-            Id = "2",
-            Title = "task 2",
-            Points = 5,
-            Deadline = new DateTime(2024, 12, 15),
-            SubTasks = new ObservableCollection<ViewModelSubTask>
-            {
-                new ViewModelSubTask { Title = "subTask 3", Points = 1 },
-                new ViewModelSubTask { Title = "subTask 4", Points = 10 }
-            }
-        },
-        new TaskModel
-        {
-            Id = "3",
-            Title = "task 3",
-            Points = 10,
-            Deadline = new DateTime(2024, 12, 1),
-            SubTasks = new ObservableCollection<ViewModelSubTask>
-            {
-                new ViewModelSubTask { Title = "subTask 1", Points = 3 }
-            }
-        }
-        });
+            mockTaskService.Tasks = new ObservableCollection<TaskModel>(_testCases);
 
             // Initialize ViewModelHome with the mocked task service
-            var viewModelHome = new ViewModelHome(mockTaskService.Object);
+            var viewModelHome = new ViewModelHome(mockTaskService);
 
             // Act
-            viewModelHome.CalculateTopTasks(3); // Calculate top 3 tasks
+            viewModelHome.GetNearestDeadlines(3);
+            var deadlines = viewModelHome.Deadlines;
 
-            // Assert
-            var topTasks = viewModelHome.TopTasks;
+            //Assert
+            Assert.Equal(_testCases[2].Id, deadlines[0].Id); // 2 -> 0
+            Assert.Equal(_testCases[1].Id, deadlines[1].Id); // 1 -> 1
+            Assert.Equal(_testCases[0].Id, deadlines[2].Id); // 0 -> 2
 
-            // Check that the tasks are sorted correctly: task 3 should be the first because it has the earliest deadline and highest severity
-            Assert.Equal("task 3", topTasks[0].Title); // Task 3 should be first because it has the highest score due to its severity (10 points)
-            Assert.Equal("task 1", topTasks[1].Title); // Task 1 should be second because it has a closer deadline
-            Assert.Equal("task 2", topTasks[2].Title); // Task 2 should be third because it has the latest deadline
+        }
+
+        [Fact]
+        public void CreatePieChart_CheckPieData()
+        {
+            // Arrange
+            var mockTaskService = new TaskServiceMock();
+            _testCases[0].Deadline = DateTime.Now.AddDays(1); // 5 Points in x < 3 days
+            _testCases[1].Deadline = DateTime.Now.AddDays(6); // 11 Points  in  3 > x  < 7 days
+            _testCases[2].Deadline = DateTime.Now.AddDays(15);// 8 Points in x > 7 days
+
+            mockTaskService.Tasks = new ObservableCollection<TaskModel>(_testCases);
+
+            // Initialize ViewModelHome with the mocked task service
+            var viewModelHome = new ViewModelHome(mockTaskService);
+
+            // Act (Pie creation in viewmodel home
+
+            //Assert
+            var PieData = viewModelHome.PieData;
+            Assert.Equal(new int[] { 5 }, PieData[0].Values);
+            Assert.Equal(new int[] { 11 }, PieData[1].Values);
+            Assert.Equal(new int[] { 8 }, PieData[2].Values);
         }
     }
 }
