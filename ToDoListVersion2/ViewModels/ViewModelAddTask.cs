@@ -172,6 +172,8 @@ namespace ToDolistVersion2.ViewModels
             canAddItem = canAddItem && NewPoints >= 1 && NewPoints <= 10;
             //Check deadline date
             canAddItem = canAddItem && Deadline.HasValue && Deadline.Value > DateTime.Now;
+            //Check if atleast 1 subtask
+            canAddItem = canAddItem && SubTaskList.Count > 0;
             return canAddItem;
         }
   

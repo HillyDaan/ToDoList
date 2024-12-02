@@ -60,26 +60,26 @@
 			<ItemsControl ItemsSource="{Binding TopTasks}" x:Name="TaskRoot">
 				<ItemsControl.ItemTemplate>
 					<!-- Template for each Task -->
-					<DataTemplate DataType="vm:ViewModelTask">
+					<DataTemplate >
 						<StackPanel Margin="10" Background="#f7f7f7"  >
 							<!-- Task details -->
 							<TextBlock FontSize="14" FontWeight="Bold">
 								<Run Text="Title: " />
-								<Run Text="{Binding Title}" />
+								<Run Text="{Binding Item1.Title}" />
 							</TextBlock>
 							<TextBlock FontSize="14">
-								<Run Text="Points: " />
-								<Run Text="{Binding Points}" />
+								<Run Text="Severity score: " />
+								<Run Text="{Binding Item2}" />
 							</TextBlock>
 
 							<!-- Nested ItemsControl for subtasks -->
-							<ItemsControl ItemsSource="{Binding SubTasks}">
+							<ItemsControl ItemsSource="{Binding Item1.SubTasks}">
 								<ItemsControl.ItemTemplate>
 									<DataTemplate DataType="vm:ViewModelSubTask">
 										<StackPanel Orientation="Horizontal" Margin="5,5,0,0">
 											<CheckBox IsChecked="{Binding IsChecked}" Command="{Binding #TaskRoot.((vm:ViewModelHome)DataContext).UpdateSubTaskStatusCommand}" CommandParameter="{Binding}" VerticalAlignment="Center"/>
 											<TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" FontSize="14"/>
-											<TextBlock Text="{Binding Points}" FontSize="14" VerticalAlignment="Center"/>
+											<TextBlock Text="{Binding Points}" Margin="5,0,0,0" FontSize="14" VerticalAlignment="Center"/>
 										</StackPanel>
 									</DataTemplate>
 								</ItemsControl.ItemTemplate>

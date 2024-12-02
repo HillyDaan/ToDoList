@@ -20,7 +20,7 @@ namespace ToDolistVersion2.ViewModels
         private readonly ITaskService _taskService;
         public ObservableCollection<ViewModelTask> Tasks { get; }
 
-        public ObservableCollection<ViewModelTask> TopTasks  { get; set; }
+        public ObservableCollection<Tuple<ViewModelTask, double>> TopTasks  { get; set; }
 
         public ISeries[] PieData { get; set; }
 
@@ -36,7 +36,7 @@ namespace ToDolistVersion2.ViewModels
                _taskService.Tasks.Select(task => new ViewModelTask(task))
             );
 
-            TopTasks = new ObservableCollection<ViewModelTask> { };
+            TopTasks = new ObservableCollection<Tuple<ViewModelTask, double>> { };
             Deadlines = new ObservableCollection<ViewModelTask> { };
             //Calculate top tasks
             CalculateTopTasks(5);
@@ -141,8 +141,8 @@ namespace ToDolistVersion2.ViewModels
             TopTasks.Clear();
             foreach(var task in scoredTasks)
             {
-                
-                TopTasks.Add(task.Task);
+                Tuple<ViewModelTask, double> newTask = new(task.Task, task.Score);
+                TopTasks.Add(newTask);
             }
         }
 
@@ -153,7 +153,10 @@ namespace ToDolistVersion2.ViewModels
             int pointsLessThan3Days = Tasks
                 .Where(task => task.DeadlineDate.HasValue && (task.DeadlineDate.Value - DateTime.Now).TotalDays < 3)
                 .Where(tasks => tasks.IsActive())
-                .Sum(task => task.SubTasks.Sum(subTask => subTask.Points ?? 0));
+                .Sum(task => task.SubTasks
+                    ?.Where(subTask => !subTask.IsChecked)  // Filter out completed subtasks
+                    .Sum(subTask => subTask.Points ?? 0)  // Sum points of the remaining (unchecked) subtasks
+                    ?? 0);
 
             int pointsBetween3and7Days = Tasks
                 .Where(task => task.DeadlineDate.HasValue && (task.DeadlineDate.Value - DateTime.Now).TotalDays >= 3 && (task.DeadlineDate.Value - DateTime.Now).TotalDays <= 7)

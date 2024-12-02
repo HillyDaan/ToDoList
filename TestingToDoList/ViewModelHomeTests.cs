@@ -70,9 +70,9 @@ namespace TestingToDoList
             Assert.Equal(3, topTasks.Count);
 
             // Verify that tasks are sorted based on score, highest first
-            Assert.Equal("1", topTasks[0].Id); // Task 1 should be first (highest priority)
-            Assert.Equal("3", topTasks[1].Id); // Task 3 should be second
-            Assert.Equal("2", topTasks[2].Id); // Task 2 should be third
+            Assert.Equal("1", topTasks[0].Item1.Id); // Task 1 should be first (highest priority)
+            Assert.Equal("3", topTasks[1].Item1.Id); // Task 3 should be second
+            Assert.Equal("2", topTasks[2].Item1.Id); // Task 2 should be third
         }
 
         [Fact]
@@ -94,7 +94,7 @@ namespace TestingToDoList
 
             // Assert that only two tasks with a valid deadline were added
             Assert.Equal(2, viewModelHome.TopTasks.Count);
-            Assert.Equal("3", topTasks[0].Id); // Task with id 3 will be the highest
+            Assert.Equal("3", topTasks[0].Item1.Id); // Task with id 3 will be the highest
         }
 
         [Fact]
