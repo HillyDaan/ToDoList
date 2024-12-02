@@ -1,11 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Filename: MainViewModel.cs
+// Description: This file contains the MainViewModel class, which manages the navigation between different views of the ToDo List application. 
+//              It handles setting the current view model and provides navigation commands to switch between the home page, add task page, and all tasks page.
+//              The MainViewModel also integrates with the ITaskService to manage tasks across the application, including saving the tasks.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ToDolistVersion2.Services;
 using ToDolistVersion2.Interfaces;
 
 namespace ToDolistVersion2.ViewModels
@@ -23,6 +22,7 @@ namespace ToDolistVersion2.ViewModels
         /// </summary>
         private readonly ITaskService _taskService;
 
+
         public MainViewModel(ITaskService taskService)
         {
             //Initialize taskservice
@@ -31,7 +31,6 @@ namespace ToDolistVersion2.ViewModels
             CurrentView = new ViewModelHome(taskService);
         }
         //Commands for navigation
-
         [RelayCommand]
         public void NavigateToAddTaskPage(ViewModelTask? task = null)
         {
@@ -62,7 +61,5 @@ namespace ToDolistVersion2.ViewModels
         {
             _taskService.SaveTasks();
         }
-
-
     }
 }

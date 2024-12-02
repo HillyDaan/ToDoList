@@ -1,14 +1,14 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Filename: ViewModelAddTask.cs
+// Description: This file contains the ViewModelAddTask class, which is responsible for managing the add and update task functionality in the ToDo List application. 
+//              It allows the user to add new tasks or edit existing tasks, including adding and removing subtasks, setting task properties such as title, description, points, and deadline.
+//              Linked to ViewAddTask.axaml.cs
+//              Tests found in ViewModelAddTaskTest.cs
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ToDolistVersion2.Services;
 using ToDolistVersion2.Interfaces;
-using ToDolistVersion2.Models;
 
 namespace ToDolistVersion2.ViewModels
 {
@@ -18,6 +18,7 @@ namespace ToDolistVersion2.ViewModels
 
         private string Id = Guid.NewGuid().ToString();
 
+        //Text for button / changes when editing instead of creating a new task
         [ObservableProperty]
         private string _buttonText = "Add Task";
 
@@ -91,7 +92,6 @@ namespace ToDolistVersion2.ViewModels
             return canAddSubTask;
         }
 
-        //Add check if subtasks title isnt empty 
         [RelayCommand(CanExecute = nameof(CanAddSubTask))]
         public void AddSubTask()
         {

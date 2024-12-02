@@ -1,11 +1,14 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿// Filename: ViewModelTask.cs
+// Description: Contains the ViewModelTask class, which represents a task in the ToDo List app. 
+//              It provides properties for the task's ID, title, completion status, points, description, created date, 
+//              deadline, subtasks, and the number of days until the deadline. It includes methods to calculate task 
+//              activity status (active or completed), and to convert between the ViewModel and the TaskModel.
+//              Linked to TaskModel.cs
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ToDolistVersion2.Models;
 
 namespace ToDolistVersion2.ViewModels
@@ -105,7 +108,7 @@ namespace ToDolistVersion2.ViewModels
                     SubTasks.Select(st => new ViewModelSubTask()
                     {
                         Title = st.Title,
-                        IsChecked = false, // Subtasks might have additional fields to sync
+                        IsChecked = false, 
                         Id = st.Id,
                         ParentId = st.ParentId,
                         Points = st.Points

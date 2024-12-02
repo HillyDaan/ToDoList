@@ -1,9 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Filename: ViewModelSubTask.cs
+// Description: Contains the ViewModelSubTask class, which represents a subtask in the ToDo List app. 
+//              It provides properties for the subtask's ID, title, completion status, points, and parent task ID,
+//              and methods to convert between the ViewModel and the SubTaskModel.
+//              Linked to SubTaskModel.cs
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ToDolistVersion2.Models;
 
 namespace ToDolistVersion2.ViewModels

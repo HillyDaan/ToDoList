@@ -1,14 +1,16 @@
-﻿using System.Collections.ObjectModel;
+﻿// Filename: ViewModelHome.cs
+// Description: This file contains the ViewModelHome class, which serves as the ViewModel for the home page of the ToDo List application.
+//              It is responsible for managing top tasks based on their deadlines and severity, 
+//              displaying tasks with the nearest deadlines, and generating a pie chart representing tasks by deadline categories. 
+//              Linked to ViewHome.axaml
+//              Tests found in ViewModelHomeTests.cs
+
+using System.Collections.ObjectModel;
 using System.Linq;
-using ToDolistVersion2.Models;
-using ToDolistVersion2.Services;
 using ToDolistVersion2.Interfaces;
 using System;
-using CommunityToolkit.Mvvm.ComponentModel;
-
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
 using CommunityToolkit.Mvvm.Input;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;

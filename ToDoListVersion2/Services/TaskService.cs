@@ -1,4 +1,10 @@
-﻿
+﻿// Filename: TaskService.cs
+// Description: Implements the ITaskService interface and handles task-related operations in the ToDo List app. 
+//              It manages tasks using an ObservableCollection, providing methods for adding, updating, deleting, 
+//              and checking off tasks and subtasks. It also handles saving and loading tasks to and from a JSON file 
+//              for persistent storage. The service interacts with TaskModel and SubTaskModel objects to maintain the 
+//              task list and ensure data integrity across application sessions.
+
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
@@ -40,10 +46,6 @@ namespace ToDolistVersion2.Services
                 }
             }
         }
-        /// <summary>
-        /// Adds task to observable collection
-        /// </summary>
-        /// <param name="task"></param>
         public void AddTask(TaskModel task)
         {
             Tasks.Add(task);
@@ -78,17 +80,17 @@ namespace ToDolistVersion2.Services
             if (taskToUpdate != null)
             {
                 taskToUpdate.IsChecked = isChecked;
-                // Optionally, update subtasks if necessary
+                 //Update all subtasks
                 foreach (var subTask in taskToUpdate.SubTasks)
                 {
-                    subTask.IsChecked = isChecked;  // This will sync subtask states too, if needed
+                    subTask.IsChecked = isChecked;
                 }
             }
         }
         public void CheckOffSubTask(SubTaskModel subTask, bool isChecked)
         {
             // Find the parent task by matching the task id
-            var taskToUpdate = Tasks.FirstOrDefault(t => t.Id == subTask.ParentId); // Assuming each subtask has a reference to its parent task
+            var taskToUpdate = Tasks.FirstOrDefault(t => t.Id == subTask.ParentId);
 
             if (taskToUpdate != null)
             {

@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Filename: ITaskService.cs
+// Description: Defines the ITaskService interface for managing tasks in the ToDo List app. 
+//              It includes methods for adding, checking off, updating, deleting tasks and subtasks, 
+//              as well as loading and saving tasks from a persistent storage. 
+//              The interface is implemented by the TaskService class to provide task management functionality.
+
+
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ToDolistVersion2.Models;
 
 namespace ToDolistVersion2.Interfaces

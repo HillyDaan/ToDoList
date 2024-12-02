@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Filename: ViewModelAllTask.cs
+// Description: This file contains the ViewModelAllTask class, which manages the display and actions for all tasks in the ToDo List application.
+//              It allows the user to interact with tasks by updating their status (checked/unchecked), deleting tasks, and navigating to the task detail page for editing. 
+//              The ViewModelAllTask class retrieves tasks from the ITaskService and provides methods for modifying tasks and subtasks, including updating their status and deleting them.  
+//              Linked to ViewAllTask.axaml
+
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ToDolistVersion2.Services;
 using ToDolistVersion2.Interfaces;
 using CommunityToolkit.Mvvm.Input;
-using ToDolistVersion2.Models;
 
 namespace ToDolistVersion2.ViewModels
 {
