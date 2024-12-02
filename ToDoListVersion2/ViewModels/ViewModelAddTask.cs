@@ -157,7 +157,7 @@ namespace ToDolistVersion2.ViewModels
         {
             NewTitle = null;
             NewDescription = null;
-            NewPoints = null;
+            NewPoints = 1;
             Deadline = null;
             SubTaskList.Clear();
         }
